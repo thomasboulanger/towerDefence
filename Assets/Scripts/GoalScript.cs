@@ -19,7 +19,6 @@ public class GoalScript : MonoBehaviour
     public void DamageReceived()
     {
         currentGoal.Hp--;
-        Debug.Log(currentGoal.Hp);
     }
 }
 public class Goal
