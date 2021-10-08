@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fff1f7db1399314fa0e24c096bf051f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Enemy: {fileID: 4063733393440796428, guid: c73d94ed1eb9cbb4e8bc7a705a3413b5, type: 3}
+  spawnRateDelay: 0.5
 --- !u!1 &7000955905454727303
 GameObject:
   m_ObjectHideFlags: 0
