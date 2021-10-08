@@ -6,7 +6,7 @@ using UnityEngine.SocialPlatforms;
 public class GoalScript : MonoBehaviour
 {
     public static int hp = 100;
-    public Goal currentGoal = new Goal(hp);
+    public static Goal currentGoal = new Goal(hp);
 
     void Update()
     {

@@ -9,41 +9,45 @@ public class SpawnerScript : MonoBehaviour
     public GameObject Enemy;
     [Range(0, 2)] 
     public float spawnRateDelay;
-    public static float delayBetweenWaves = 5;
+    public static float delayBetweenWaves = 30f;
     
      static int enemyCounter;
     //public TimerBetweenWaves timerBetweenWaves = new TimerBetweenWaves(delayBetweenWaves);
     
     private float _timer;
+    private float _enemyByWave = 10;
 
 
     public static bool onWave; 
     public static float waveTime;
     public static int waveCounter;
-    
-    
+
+    private void Start()
+    {
+        waveTime = delayBetweenWaves;
+    }
 
     void Update()
     {
-        Debug.Log(waveCounter);
         if (!onWave)
         {
-            waveTime += Time.deltaTime;
+            //faire un time.deltatime custom sur un script a part et le mettre en reference ici a la place de cette merde...
+            waveTime -= Time.deltaTime / GameObject.FindGameObjectsWithTag("Spawner").Length;
         }
         else
         {
             _timer += Time.deltaTime;
         }
 
-        if (waveTime >= delayBetweenWaves)
+        if (waveTime <= 0f)
         {
-            waveTime = 0f;
             onWave = true;
-            //waveTime -= 5f;
+            delayBetweenWaves -= 2f;
+            waveTime = delayBetweenWaves;
             waveCounter++;
-            if (waveTime <= 0) 
+            if (waveTime >= delayBetweenWaves) 
             {
-                waveTime = 0;
+                waveTime = delayBetweenWaves;
             }
         }
         if (_timer >= spawnRateDelay && onWave) 
@@ -51,10 +55,11 @@ public class SpawnerScript : MonoBehaviour
             enemyCounter++;
 
             Instantiate(Enemy, transform.position, Quaternion.identity);
-            if (enemyCounter >= 10)
+            if (enemyCounter >= _enemyByWave)
             {
                 onWave = false;
                 enemyCounter = 0;
+                _enemyByWave += 5;
             }
             _timer = 0f;
         }
