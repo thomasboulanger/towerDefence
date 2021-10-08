@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class UIScript : MonoBehaviour
-{
-    //public GoalScript GoalScriptInstance;
+{ 
     [SerializeField]
     private TextMeshProUGUI _wave;
     [SerializeField]
@@ -18,16 +13,11 @@ public class UIScript : MonoBehaviour
     private TextMeshProUGUI _enemyLeft;
     [SerializeField]
     private TextMeshProUGUI _nextWaveTimer;
-    
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
         _wave.text = SpawnerScript.waveCounter.ToString();
-        //_money.text = ;
+        _money.text = PlayerDataScript.singleton.money.ToString();
         _hp.text = GoalScript.currentGoal.Hp.ToString();
         _enemyLeft.text = EnemyScript.Enemys.Count.ToString();
         if (SpawnerScript.onWave)
