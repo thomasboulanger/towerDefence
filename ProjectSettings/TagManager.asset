@@ -8,6 +8,7 @@ TagManager:
   - Tower
   - Spawner
   - Goal
+  - TowerRange
   layers:
   - Default
   - TransparentFX

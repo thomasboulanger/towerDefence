@@ -9,13 +9,12 @@ public class SpawnerScript : MonoBehaviour
     public GameObject Enemy;
     [Range(0, 2)] 
     public float spawnRateDelay;
-    public static float delayBetweenWaves = 30f;
+    public static float delayBetweenWaves = 20f;
     
      static int enemyCounter;
-    //public TimerBetweenWaves timerBetweenWaves = new TimerBetweenWaves(delayBetweenWaves);
-    
-    private float _timer;
-    private float _enemyByWave = 10;
+     private float _timer;
+     private float _enemyByWave = 10;
+     private int _enemyHp = 5;
 
 
     public static bool onWave; 
@@ -42,7 +41,6 @@ public class SpawnerScript : MonoBehaviour
         if (waveTime <= 0f)
         {
             onWave = true;
-            delayBetweenWaves -= 2f;
             waveTime = delayBetweenWaves;
             waveCounter++;
             if (waveTime >= delayBetweenWaves) 
@@ -54,7 +52,8 @@ public class SpawnerScript : MonoBehaviour
         {
             enemyCounter++;
 
-            Instantiate(Enemy, transform.position, Quaternion.identity);
+            GameObject go = Instantiate(Enemy, transform.position, Quaternion.identity);
+            go.GetComponent<EnemyScript>().hp = _enemyHp;
             if (enemyCounter >= _enemyByWave)
             {
                 onWave = false;
@@ -63,60 +62,5 @@ public class SpawnerScript : MonoBehaviour
             }
             _timer = 0f;
         }
-        
-        /*if (!timerBetweenWaves.onWave)
-        {
-            timerBetweenWaves.Timer += Time.deltaTime;
-        }
-        else
-        {
-            _timer += Time.deltaTime;
-        }
-
-        if (_timer >= spawnRateDelay && timerBetweenWaves.onWave) 
-        {
-            enemyCounter++;
-
-            Instantiate(Enemy, transform.position, Quaternion.identity);
-            if (enemyCounter >= 10)
-            {
-                timerBetweenWaves.onWave = false;
-                enemyCounter = 0;
-            }
-            _timer = 0f;
-        }*/
     }
 }
-
-/*public class TimerBetweenWaves
-{
-    public bool onWave;
-    public float time;
-    public int waveCounter;
-    private float _waveTimer;
-
-    public float Timer
-    {
-        get { return time; }
-        set
-        {
-            time = value;
-            if (time >= _waveTimer)
-            {
-                time = 0f;
-                onWave = true;
-                //_waveTimer -= 5f;
-                waveCounter++;
-                if (_waveTimer <= 0) 
-                {
-                    _waveTimer = 0;
-                }
-            }
-        }
-    }
-
-    public TimerBetweenWaves(float timer)
-    {
-        _waveTimer = timer;
-    }
-}*/

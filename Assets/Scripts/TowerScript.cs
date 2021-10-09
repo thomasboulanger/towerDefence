@@ -28,7 +28,7 @@ public class TowerScript : MonoBehaviour
                 canvas.SetActive(true);
             }
         }
-        else
+        else if (transform.CompareTag("Tower"))
         {
             if (isUIActive)
             {
@@ -50,9 +50,8 @@ public class TowerScript : MonoBehaviour
             GameObject go = Instantiate(tower, transform.position, Quaternion.identity);
             if (transform.name.Contains("1")||transform.name.Contains("2")||transform.name.Contains("3"))
             {
-                myRectTransform = go.transform.GetChild(0).GetComponent<RectTransform>();
+                myRectTransform = go.transform.GetChild(1).GetComponent<RectTransform>();
                 myRectTransform.localPosition += Vector3.forward * 8;
-                Debug.Log(myRectTransform);
             }
             canvas.SetActive(false);
             PlayerDataScript.singleton.money -= 50;

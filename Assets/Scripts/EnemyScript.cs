@@ -3,49 +3,95 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyScript : MonoBehaviour
 {
-    public static int hp = 10;
+    public int hp = 5;
     public static List<GameObject> Enemys = new List<GameObject>();
-    public EnemyHp enemyHp = new EnemyHp(hp);
+    public EnemyHp enemyHp;
+    public Slider slider;
+
 
     private Vector3 _destination;
     private NavMeshAgent _navMesh;
+    private bool _dead;
+    private Shader _shader;
+    private static float _getDissolveVector;
+    
     void Start()
     {
+        enemyHp = new EnemyHp(hp);
         Enemys.Add(this.gameObject);
         _destination = GameObject.FindWithTag("Goal").transform.position;
         _navMesh = GetComponent<NavMeshAgent>();
+        _dead = false;
+        slider.maxValue = hp;
+        slider.minValue = 0f;
     }
 
-    void Update()
+     void Update()
     {
-        //definir dinamiquement la destination
-        _navMesh.destination = _destination;
-        if (enemyHp.Dead)
+        slider.value = enemyHp.Hp;
+        Shader.SetGlobalFloat("dissolveFloat", _getDissolveVector);
+
+        if (!_dead)
         {
-            Destroy(this.gameObject);
+            //definir dinamiquement la destination
+            _navMesh.destination = _destination;
         }
+
+        //si l'ennemi meurt :
+        if (enemyHp.Zero)
+        {
+            foreach (GameObject tower in GameObject.FindGameObjectsWithTag("Tower"))
+            {
+                foreach (GameObject enemy in tower.GetComponent<TowerStats>().enemyInRange)
+                {
+                    if (enemy == this.gameObject)
+                    {
+                        tower.GetComponent<TowerStats>().enemyInRange.Remove(enemy);
+                    }
+                }
+            }
+            Destroy(this.gameObject);
+            //_dead = true;
+        }
+
+        /*if (_dead)
+        {
+            _navMesh.destination = transform.position;
+            _getDissolveVector += Time.deltaTime;
+            if (_getDissolveVector >= 1f)
+            {
+                Destroy(this.gameObject);
+            }
+        }*/
     }
 
+    public void GetDamaged(int damageValue)
+    {
+        enemyHp.Hp -= damageValue;
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Goal")
+        if (other.gameObject.CompareTag("Goal"))
         {
-            Destroy(this.gameObject);
+            _dead = true;
             other.GetComponent<GoalScript>().DamageReceived();
         }
     }
     private void OnDestroy()
     {
+        PlayerDataScript.singleton.money += 10;
         Enemys.Remove(this.gameObject);
     }
 }
 
 public class EnemyHp
 {
-    public bool Dead { get; set; }
+    public bool Zero { get; set; }
     private int _hp;
 
     public int Hp
@@ -56,7 +102,7 @@ public class EnemyHp
             _hp = value;
             if (_hp <= 0)
             {
-                Dead = true;
+                Zero = true;
                 _hp = 0;
             }
         }
