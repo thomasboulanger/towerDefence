@@ -53,7 +53,7 @@ public class SpawnerScript : MonoBehaviour
             enemyCounter++;
 
             GameObject go = Instantiate(Enemy, transform.position, Quaternion.identity);
-            go.GetComponent<EnemyScript>().hp = _enemyHp;
+            go.GetComponent<EnemyScript>().hp = _enemyHp + waveCounter - 1;
             if (enemyCounter >= _enemyByWave)
             {
                 onWave = false;

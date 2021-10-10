@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class TowerScript : MonoBehaviour
@@ -7,6 +8,8 @@ public class TowerScript : MonoBehaviour
     public GameObject canvas;
     public GameObject tower;
     public bool isUIActive;
+    public static List<GameObject> towers = new List<GameObject>();
+    
     private RectTransform myRectTransform;
     void Start()
     {
@@ -48,6 +51,7 @@ public class TowerScript : MonoBehaviour
         if (PlayerDataScript.singleton.money >= 50)
         {
             GameObject go = Instantiate(tower, transform.position, Quaternion.identity);
+            towers.Add(go);
             if (transform.name.Contains("1")||transform.name.Contains("2")||transform.name.Contains("3"))
             {
                 myRectTransform = go.transform.GetChild(1).GetComponent<RectTransform>();

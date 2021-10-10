@@ -10,7 +10,12 @@ public class TowerStats : MonoBehaviour
     public int baseDamage;
     public GameObject towerRangeCircle;
     public List<GameObject> enemyInRange = new List<GameObject>();
-    
+    [Space]
+    public int rangePrice;
+    public int speedPrice;
+    public int damagePrice;
+    [Space]
+
     [SerializeField]
     private float _currentAttackSpeed;
     [SerializeField]
@@ -20,6 +25,7 @@ public class TowerStats : MonoBehaviour
     private GameObject target;
     private float _timer;
 
+    
     void Start()
     {
         _currentAttackSpeed = baseAttackSpeed;
@@ -29,7 +35,7 @@ public class TowerStats : MonoBehaviour
 
     void Update()
     {
-        towerRangeCircle.transform.localScale = new Vector3(_currentRange,_currentRange,_currentRange);
+        towerRangeCircle.transform.localScale = new Vector3(_currentRange,1f,_currentRange);
         if (enemyInRange.Count != 0)
         {
             target = enemyInRange[0];
@@ -51,9 +57,9 @@ public class TowerStats : MonoBehaviour
 
     public void UpAttackSpeed()
     {
-        if (PlayerDataScript.singleton.money >= 12)
+        if (PlayerDataScript.singleton.money >= speedPrice)
         {
-            PlayerDataScript.singleton.money -= 12;
+            PlayerDataScript.singleton.money -= speedPrice;
             _currentAttackSpeed += (baseAttackSpeed * .1f);
             
         }
@@ -61,18 +67,18 @@ public class TowerStats : MonoBehaviour
 
     public void UpRange()
     {
-        if (PlayerDataScript.singleton.money >= 15)
+        if (PlayerDataScript.singleton.money >= rangePrice)
         {
-            PlayerDataScript.singleton.money -= 15;
+            PlayerDataScript.singleton.money -= rangePrice;
             _currentRange += .5f;
         }
     }
 
     public void UpDamage()
     {
-        if (PlayerDataScript.singleton.money >= 20)
+        if (PlayerDataScript.singleton.money >= damagePrice)
         {
-            PlayerDataScript.singleton.money -= 20;
+            PlayerDataScript.singleton.money -= damagePrice;
             _currentDamage += 1;
         }
     }

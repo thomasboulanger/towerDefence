@@ -44,18 +44,26 @@ public class EnemyScript : MonoBehaviour
         //si l'ennemi meurt :
         if (enemyHp.Zero)
         {
-            foreach (GameObject tower in GameObject.FindGameObjectsWithTag("Tower"))
+            try
             {
-                foreach (GameObject enemy in tower.GetComponent<TowerStats>().enemyInRange)
+                foreach (GameObject tower in TowerScript.towers)
                 {
-                    if (enemy == this.gameObject)
+                    foreach (GameObject enemy in tower.GetComponent<TowerStats>().enemyInRange)
                     {
-                        tower.GetComponent<TowerStats>().enemyInRange.Remove(enemy);
+                        if (enemy == this.gameObject)
+                        {
+                            tower.GetComponent<TowerStats>().enemyInRange.Remove(enemy);
+                        }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             Destroy(this.gameObject);
-            //_dead = true;
+            _dead = true;
         }
 
         /*if (_dead)
@@ -79,6 +87,8 @@ public class EnemyScript : MonoBehaviour
         if (other.gameObject.CompareTag("Goal"))
         {
             _dead = true;
+            //provisoire : 
+            enemyHp.Zero = true;
             other.GetComponent<GoalScript>().DamageReceived();
         }
     }
