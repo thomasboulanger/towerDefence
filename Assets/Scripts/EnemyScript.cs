@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -24,6 +23,12 @@ public class EnemyScript : MonoBehaviour
         enemyHp = new EnemyHp(hp);
         Enemys.Add(this.gameObject);
         _destination = GameObject.FindWithTag("Goal").transform.position;
+        /*foreach (GameObject goal in GameObject.FindGameObjectsWithTag("Goal"))
+        {
+            Goals.Add(goal);
+        }
+        _navMesh = GetComponent<NavMeshAgent>();
+        _destination = _navMesh.destination(Goals[0].transform.position);*/
         _navMesh = GetComponent<NavMeshAgent>();
         _dead = false;
         slider.maxValue = hp;

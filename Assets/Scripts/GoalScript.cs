@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 public class GoalScript : MonoBehaviour
 {
     public static int hp = 100;
     public static Goal currentGoal = new Goal(hp);
+    //public static List<GameObjec>
 
     void Update()
     {
