@@ -17,19 +17,15 @@ public class EnemyScript : MonoBehaviour
     private bool _dead;
     private Shader _shader;
     private static float _getDissolveVector;
+    private int number;
     
     void Start()
     {
         enemyHp = new EnemyHp(hp);
         Enemys.Add(this.gameObject);
-        _destination = GameObject.FindWithTag("Goal").transform.position;
-        /*foreach (GameObject goal in GameObject.FindGameObjectsWithTag("Goal"))
-        {
-            Goals.Add(goal);
-        }
         _navMesh = GetComponent<NavMeshAgent>();
-        _destination = _navMesh.destination(Goals[0].transform.position);*/
-        _navMesh = GetComponent<NavMeshAgent>();
+        number = UnityEngine.Random.Range(0,GoalScript.Goals.Count-1);
+        _destination = GoalScript.Goals[number].transform.position;
         _dead = false;
         slider.maxValue = hp;
         slider.minValue = 0f;
@@ -42,7 +38,6 @@ public class EnemyScript : MonoBehaviour
 
         if (!_dead)
         {
-            //definir dinamiquement la destination
             _navMesh.destination = _destination;
         }
 

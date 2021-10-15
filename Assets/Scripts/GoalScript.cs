@@ -1,11 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GoalScript : MonoBehaviour
 {
     public static int hp = 100;
     public static Goal currentGoal = new Goal(hp);
-    //public static List<GameObjec>
+    public static List<GameObject> Goals = new List<GameObject>();
+
+    private void Awake()
+    {
+        foreach (GameObject goal in GameObject.FindGameObjectsWithTag("Goal"))
+        {
+            Goals.Add(goal.gameObject);
+        }
+    }
 
     void Update()
     {
